@@ -3,7 +3,7 @@
 Last updated: 2026-10-19 by agent "poc/H-002"
 
 ## Done or not?
-**NOT done.** H-001 and H-002 both KILLED with runtime fork PoCs. No live hypotheses. Crossref + guard audit RUN; no surviving Critical/High. Backlog in crossref.md.
+**Pass complete (2026-10-19).** H-001/H-002 killed with fork PoCs, H-003 Informational, crossref + guard audit + sigs + live roles done. No Critical/High found.
 
 ## Where we are
 - [x] Scope locked (see scope.md). Source pinned: v2-core-pub @ de163d5a1edf99281d7d000783b4dc8ade03591e.
@@ -16,7 +16,7 @@ Last updated: 2026-10-19 by agent "poc/H-002"
 - [ ] Confirmed finding — none.
 
 ## Immediate next step for the next agent
-Crossref + guard audit done; nothing survived. Oracles reviewed: H-003 Curve read-only reentrancy gap is real but no permissionless consumer (Informational). Remaining: rewarder claimFor sig replay, live role holders on fork. Fork tip: don't warp past oracle maxAge.
+Crossref + guard audit done; nothing survived. Oracles reviewed: H-003 Curve read-only reentrancy gap is real but no permissionless consumer (Informational). claimFor sig replay killed; live roles read on fork (deployer EOA holds ORACLE_MANAGER: centralization note only). Audit pass CLOSED. Fork tip: don't warp past oracle maxAge.
 
 ## Hard blocker
 GitHub integration cannot create repos (owner must create them). Not blocking research.
