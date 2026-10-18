@@ -8,3 +8,6 @@
   SOLVER; runtime-confirmed revert for attacker), unlock is linear with no step to front-run, and
   entry/exit pricing is skewed against round-trippers. REVISIT IF reporting goes permissionless or a
   single report can jump nav more than the deposit/withdraw spread. PoC: poc/H002_ProfitUnlock.t.sol.
+- K-003 | from H-003 | Curve read-only reentrancy on LP pricing. Gap is real (getSafeSpotPriceInfo is view,
+  no reentrancy check despite docs), but all live-price consumers are REPORTING_EXECUTOR / SOLVER /
+  STATS_SNAPSHOT_EXECUTOR; user flows use cached debt. Informational only. REVISIT IF a user path reads live LP price.
