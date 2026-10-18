@@ -16,7 +16,7 @@ Last updated: 2026-10-19 by agent "poc/H-002"
 - [ ] Confirmed finding — none.
 
 ## Immediate next step for the next agent
-Crossref + guard audit done; nothing survived. Next: src/oracles LP pricing + isSpotSafe tolerance (real NAV surface), then rewarder claimFor sig replay, live role holders. Calculators killed (strategy-only). Fork tip: don't warp past oracle maxAge.
+Crossref + guard audit done; nothing survived. Oracles reviewed: H-003 Curve read-only reentrancy gap is real but no permissionless consumer (Informational). Remaining: rewarder claimFor sig replay, live role holders on fork. Fork tip: don't warp past oracle maxAge.
 
 ## Hard blocker
 GitHub integration cannot create repos (owner must create them). Not blocking research.
