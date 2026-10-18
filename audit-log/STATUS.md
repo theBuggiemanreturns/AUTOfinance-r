@@ -1,9 +1,9 @@
 # STATUS — Tokemak Autopilot hunt
 
-Last updated: 2026-10-19 by agent "poc/H-001"
+Last updated: 2026-10-19 by agent "poc/H-002"
 
 ## Done or not?
-**NOT done.** H-001 KILLED with a runtime fork PoC. H-002 still OPEN. Cross-reference pass NOT yet run.
+**NOT done.** H-001 and H-002 both KILLED with runtime fork PoCs. No live hypotheses. Cross-reference pass NOT yet run — that is the next step.
 
 ## Where we are
 - [x] Scope locked (see scope.md). Source pinned: v2-core-pub @ de163d5a1edf99281d7d000783b4dc8ade03591e.
@@ -16,7 +16,7 @@ Last updated: 2026-10-19 by agent "poc/H-001"
 - [ ] Confirmed finding — none.
 
 ## Immediate next step for the next agent
-H-001 is dead (permissionless). Next: H-002 (profit-unlock timing) fork PoC, then the cross-reference pass. See hypotheses/ and killed.md.
+Both seed hypotheses dead. Next: run the 20-family cross-reference pass + guard-audit to generate NEW hypotheses (oracles/ custom-set oracle, destination vaults, rewarders, liquidation). Fork tip: don't warp past oracle maxAge.
 
 ## Hard blocker
 GitHub integration cannot create repos (owner must create them). Not blocking research.
