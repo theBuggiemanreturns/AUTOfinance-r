@@ -58,3 +58,15 @@ so the standard DeFi family set below was used. Source: src/ @ audited commit; l
 1. Live role holders / registry entries on fork (family 20).
 2. Rewarder `claimFor` signature domain / replay (family 16).
 3. Per-destination debtValue math in stats calculators (31 files; largest unaudited surface).
+
+## Backlog #3 resolved — stats calculators (2026-10-19)
+- Calculators do NOT feed NAV. Debt value comes from `rootPriceOracle().getRangePricesLP()` (src/oracles):
+  `DestinationVault._debtValue` and `AutopoolDebt._recalculateDestInfo` (min/max of spot vs safe, reverts if !isSpotSafe).
+- Calculator outputs feed only the strategy (SummaryStats / PriceReturn / Incentives) that scores
+  SOLVER-initiated `flashRebalance`. `snapshot()` is gated by STATS_SNAPSHOT_EXECUTOR.
+- So a calculator bug can at worst bias rebalance approval, and only a trusted solver can act on it → no
+  permissionless theft path. KILLED as a family (source).
+- **Re-pointed backlog:** the real valuation surface is `src/oracles` — RootPriceOracle.getRangePricesLP,
+  the isSpotSafe tolerance, and per-pool LP pricers (Curve/Balancer/Maverick/Aerodrome). Question to answer:
+  can an attacker push spot and safe so both drift together while staying "safe", then hit a keeper report
+  or a withdraw that prices at that drifted level?
