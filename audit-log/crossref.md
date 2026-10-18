@@ -70,3 +70,31 @@ so the standard DeFi family set below was used. Source: src/ @ audited commit; l
   the isSpotSafe tolerance, and per-pool LP pricers (Curve/Balancer/Maverick/Aerodrome). Question to answer:
   can an attacker push spot and safe so both drift together while staying "safe", then hit a keeper report
   or a withdraw that prices at that drifted level?
+
+## Backlog #1/#2 resolved — signatures + live roles (2026-10-19)
+**Rewards.claimFor (family 16): KILLED (source).** Cumulative-amount model: pays `recipient.amount - claimedAmounts[wallet]`,
+so replaying a used sig pays 0 (reverts ZeroAmount) and an older lower sig underflow-reverts. Typed data covers
+chainId + cycle + wallet + amount; EIP712 domain binds verifyingContract; OZ ECDSA rejects malleable s; funds always go
+to `recipient.wallet`; only the router may call, and the router requires msg.sender == wallet.
+
+**Live roles @ block 23,600,000 (poc/Roles_Live.t.sol, fork-read):** systemRegistry 0x2218…4285, accessController 0x3776…2dF6.
+| Role | Holders |
+|---|---|
+| REPORTING_EXECUTOR | 1 EOA keeper (0x241b…aea3) + 1 Safe-style proxy (0x8b43…969B) |
+| SOLVER | 11 contracts, all `FlashBorrowerSolver` (verified, deployed by Tokemak Deployer 1) |
+| AUTO_POOL_MANAGER / DESTINATION_VAULT_MANAGER | 2 Safe-style proxies |
+| ORACLE_MANAGER | 2 Safe-style proxies + **1 EOA = Tokemak Deployer 1 (0x123c…10e5A3)** |
+| AUTO_POOL_FEE_UPDATER | 1 Safe-style proxy |
+| STATS_SNAPSHOT_EXECUTOR | 4 contracts |
+| TOKEN_RECOVERY_MANAGER | none |
+
+- **FlashBorrowerSolver** (verified source): `execute` gated by SOLVER_EXECUTION_ROLE; `recover` by SOLVER_RECOVERY_ROLE;
+  `onFlashLoan` requires msg.sender to be a registered Autopool, and Autopools only call it inside SOLVER-gated
+  flashRebalance. Initiator arg is ignored, but every possible initiator is another trusted solver. No outsider path into
+  its weiroll VM. KILLED.
+- **Observation (centralization, NOT a bounty finding):** a deployer EOA still holds ORACLE_MANAGER, which can set
+  safe-spot thresholds and register/unregister LP pricers, i.e. it can steer NAV inputs. Privileged-key risk; typically
+  out of scope for bounties. Worth a courtesy note to the team, not a Critical/High claim.
+
+## CLOSE-OUT
+All seed hypotheses (H-001..H-003) and backlog items worked. No scope-eligible Critical/High with a permissionless path.
